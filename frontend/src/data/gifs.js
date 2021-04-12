@@ -1,0 +1,11 @@
+export default [{"id":"1", "title":"hethaeth", "author":"afcr", "source":require("@/gifs/first.gif")},
+{"id":"2", "title":"htetfgs", "author":"s", "source":require("@/gifs/cat.gif")},
+{"id":"3", "title":"4twRF", "author":"d", "source":""},
+{"id":"4", "title":"gtfsv", "author":"f", "source":""},
+{"id":"5", "title":"w5ywrg", "author":"g", "source":""},
+{"id":"6", "title":"sfgwrg", "author":"v", "source":""},
+{"id":"7", "title":"sfgrwg", "author":"c", "source":""},
+{"id":"8", "title":"sfgrwrga", "author":"a", "source":""},
+{"id":"9", "title":"srgfs", "author":"q", "source":""},
+{"id":"10", "title":"srgfs", "author":"w", "source":""},
+{"id":"11", "title":"srgfsgr", "author":"e", "source":""}]

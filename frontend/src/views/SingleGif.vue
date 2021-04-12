@@ -3,30 +3,18 @@
     
     <h2>{{ gif.title }}</h2>
     <img :src=gif.source>
+    
   </div>
 </template>
 
 <script>
-
+import gifsData from '@/data/gifs'
 
 export default {
   name: 'SingleGif',
   data() {
     return {
-      
-      gifs: [
-        {
-          id: 1,
-          title: 'A dog',
-          source: './src/assets/icon.svg'
-        },
-        {
-          id: 2,
-          title: 'A cat',
-          source: './src/assets/icon.svg' 
-        }
-      ],
-        gif: {},
+      gifsData
     }
   },
   created() {
