@@ -1,6 +1,6 @@
 <template>
-  <div class="home">
-
+  <div class="add-gif">
+    <h1>Upload a new GIF</h1>
   </div>
 </template>
 
@@ -8,6 +8,6 @@
 
 
 export default {
-  name: 'Home',
+  name: 'AddGif',
 }
 </script>

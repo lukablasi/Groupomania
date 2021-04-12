@@ -1,10 +1,15 @@
 <template>
   <div id="app">
     <div id="nav">
+      <div class='nav-logo'>
+      <img src='../src/assets/icon-left-font-monochrome-black.svg'>
+      </div>
+      <div class='nav-links'>
       <router-link to="/">Home</router-link>
       <router-link to="/addgif">Add Gif</router-link>
       <router-link to="/login">Login</router-link>
       <router-link to="/register">Register</router-link>
+      </div>
     </div>
     <router-view/>
   </div>
@@ -20,7 +25,8 @@
 }
 
 #nav {
-  padding: 30px;
+  margin-top: 30px;
+  margin-bottom: 50px;
 
   a {
     font-weight: bold;
@@ -32,5 +38,9 @@
       color: #42b983;
     }
   }
+}
+
+.nav-logo img {
+  max-width: 90vw;
 }
 </style>

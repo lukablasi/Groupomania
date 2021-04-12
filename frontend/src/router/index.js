@@ -4,6 +4,7 @@ import Home from '../views/Home.vue'
 import AddGif from '../views/AddGif.vue'
 import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
+import SingleGif from '../views/SingleGif.vue'
 
 
 Vue.use(VueRouter)
@@ -28,10 +29,17 @@ const routes = [
     path: '/register',
     name: 'Register',
     component: Register
+  },
+  {
+    path: '/gif/:id',
+    name: 'SingleGif',
+    component: SingleGif
   }
 ]
 
 const router = new VueRouter({
+  mode: 'history',
+  base: process.env.BASE_URL,
   routes
 })
 
