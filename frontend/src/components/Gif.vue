@@ -23,10 +23,11 @@
 h4 {
   text-align: right;
   margin-right: 50px;
+  color: #2c3e50;
 }
 
 img {
-  width: 400px;
+  width: 70%;
   height: 300px;
 }
 

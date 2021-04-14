@@ -3,9 +3,35 @@
     
     <h2>{{ gif.title }}</h2>
     <img :src=gif.source>
-    
+    <h4><i>uploaded by:</i> {{ gif.author }}</h4>
   </div>
 </template>
+
+<style lang="scss" scoped>
+
+.single-gif {
+  background-color: #f8f8f8;
+  max-width: 600px;
+  margin: auto;
+  border: 1px #2c3e50 solid;
+  margin-top: 20px;
+}
+
+h2 {
+  color: #42b983;
+}
+
+h4 {
+  text-align: right;
+  margin-right: 50px;
+}
+
+img {
+  height: 300px;
+  width: 70%;
+}
+
+</style>
 
 <script>
 import gifsData from '@/data/gifs'
@@ -14,13 +40,13 @@ export default {
   name: 'SingleGif',
   data() {
     return {
-      gifsData
+      gifsData,
+      gif: {}
     }
   },
   created() {
     const ID = Number(this.$route.params.id);
-    console.log(ID)
-    const gif = this.gifs.find(gif => gif.id === ID);
+    const gif = gifsData.find(gif => gif.id == ID);
     this.gif = gif;
   }
 }
