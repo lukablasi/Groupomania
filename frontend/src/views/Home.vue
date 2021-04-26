@@ -24,20 +24,34 @@ h4 {
   color: #2c3e50;
 }
 
+.home {
+  background-color: rgba(199, 250, 192, 0.473);
+}
+
 </style>
 
 <script>
-import GifBody from '../components/Gif.vue'
-import gifsData from '@/data/gifs'
+import GifBody from '../components/Gif.vue';
+import axios from 'axios';
 
 export default {
   name: 'Home',
   components: {GifBody},
   data() {
     return {
-      gifsData
+      gifsData: [],
+      jsonData: ''
     }
-  }
+  },
+  methods: {
+    getGifs () {
+      axios.get('http://localhost:5000/api/gifs').then((response) => {
+        console.log(response);
+      }, (error) => {
+        console.log(error);
+      })
+    },
+  },
 }
 </script>
 
