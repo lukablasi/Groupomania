@@ -1,8 +1,8 @@
 <template>
   <div class="home">
     <h1>New Gifs</h1>
-    <div v-for='gif in gifsData' :gif='gif' :key='gif.id'>
-        <router-link :to="'/gif/' + gif.id" >
+    <div v-for='gif in gifsData.slice().reverse()' :gif='gif' :key='gif.id'>
+        <router-link :to="'/gif/' + gif.gif_id" >
         <GifBody :source=gif.source :title=gif.title :author=gif.author />
 
         </router-link>
@@ -40,17 +40,19 @@ export default {
   data() {
     return {
       gifsData: [],
-      jsonData: ''
     }
   },
   methods: {
-    getGifs () {
+    async getGifs () {
       axios.get('http://localhost:5000/api/gifs').then((response) => {
-        console.log(response);
+        this.gifsData = response.data;
       }, (error) => {
         console.log(error);
       })
     },
+  },
+  beforeMount() {
+    this.getGifs()
   },
 }
 </script>

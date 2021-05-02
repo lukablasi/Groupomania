@@ -34,20 +34,29 @@ img {
 </style>
 
 <script>
-import gifsData from '@/data/gifs'
+import axios from 'axios';
 
 export default {
   name: 'SingleGif',
   data() {
     return {
-      gifsData,
       gif: {}
     }
   },
-  created() {
-    const ID = Number(this.$route.params.id);
-    const gif = gifsData.find(gif => gif.id == ID);
-    this.gif = gif;
-  }
+  methods: {
+    async getOneGif () {
+       axios.get('http://localhost:5000/api/gifs').then((response) => {
+        this.gifsData = response.data;
+        const ID = Number(this.$route.params.id);
+        const gif = this.gifsData.find(gif => gif.gif_id == ID);
+        this.gif = gif;
+      }, (error) => {
+        console.log(error);
+      })
+    },
+  },
+  beforeMount() {
+    this.getOneGif()
+  },
 }
 </script>
