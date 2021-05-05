@@ -1,10 +1,14 @@
 <template>
+  <div>
   <div class="single-gif">
     
     <h2>{{ gif.title }}</h2>
     <img :src=gif.source>
     <h4><i>uploaded by:</i> {{ gif.author }}</h4>
+    <div class='msg'> {{ msg }} </div>
   </div>
+  <button v-on:click='deleteGif()' class='delete'>Delete</button>
+    </div>
 </template>
 
 <style lang="scss" scoped>
@@ -26,6 +30,24 @@ h4 {
   margin-right: 50px;
 }
 
+button{
+  font-size: 20px;
+  padding: 10px;
+  margin: 20px;
+  color: white;
+  border: 2px solid white;
+  border-radius: 10px;  
+}
+
+.delete {
+  background-color: darkred;
+}
+
+.msg {
+  color: darkred;
+  font-size: 30px;
+}
+
 img {
   height: 300px;
   width: 70%;
@@ -40,7 +62,8 @@ export default {
   name: 'SingleGif',
   data() {
     return {
-      gif: {}
+      gif: {},
+      msg: ''
     }
   },
   methods: {
@@ -54,6 +77,14 @@ export default {
         console.log(error);
       })
     },
+    deleteGif () {
+      axios.delete('http://localhost:5000/api/gifs/' + this.$route.params.id).then((response) => {
+        console.log(response);
+        this.msg = response.data;
+      }, (error) => {
+        console.log(error);
+      })
+    }, 
   },
   beforeMount() {
     this.getOneGif()
