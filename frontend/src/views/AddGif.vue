@@ -37,6 +37,7 @@ export default {
     return {
       source: '',
       title: '',
+      author: '',
       msg: '',
       body: '',
       errmsg:''

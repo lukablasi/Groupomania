@@ -6,9 +6,15 @@
       </div>
       <div class='nav-links'>
       <router-link to="/">Home</router-link>
-      <router-link to="/addgif">Add Gif</router-link>
-      <router-link to="/login">Login</router-link>
-      <router-link to="/register">Register</router-link>
+      
+      <span v-if='isLoggedIn'>
+        <router-link to="/addgif">Add Gif</router-link>
+        <a href='' @click='logout'>Logout</a>
+      </span>
+      <span v-else>
+        <router-link to="/login">Login</router-link>
+        <router-link to="/register">Register</router-link>
+        </span>
       </div>
     </div>
     <router-view/>
@@ -44,3 +50,50 @@
   max-width: 90vw;
 }
 </style>
+
+<script>
+
+
+export default ({
+  data() {
+    return {
+      isLoggedIn: false
+    }
+  },
+  methods: {
+    async isAuth () {
+      try {
+        const response = await fetch(
+        "http://localhost:5000/auth/is-verify",
+        {
+          method: "GET",
+          headers: {
+            token: localStorage.token
+          },
+
+        }
+        
+      );
+      this.parseRes = await response.json();
+        if (this.parseRes === true) {
+          this.isLoggedIn = true
+        } else {
+          this.isLoggedIn = false
+        }
+
+      } catch (err) {
+        console.error(err.message)
+      }
+    },
+    async logout () {
+      localStorage.removeItem('token')
+      localStorage.removeItem('userID')
+      localStorage.removeItem('userName')
+        this.$router.push('/')
+    }
+  },
+  beforeMount() {
+    this.isAuth()
+  }
+})
+</script>

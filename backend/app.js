@@ -1,6 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const pool = require('./db');
+const cors = require('cors');
+const multer = require('./middleware/multer-config');
 
 const app = express();
 
@@ -9,7 +11,7 @@ app.use(
     extended: true
   })
 )
-
+app.use(cors())
 app.use(express.json())
 
 app.use((req, res, next) => {
@@ -18,6 +20,8 @@ app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
     next();
   });
+
+  app.use('/auth', require ('./routes/jwtAuth'))
 
   app.get('/api/gifs', async (req, res) => {
     try {
@@ -39,7 +43,7 @@ app.use((req, res, next) => {
   });
 
   app.post('/api/gifs', (req, res, next) => {
-      const source = req.body.source;
+      const source = 'http://localhost:5000/images/' + req.file.filename;
       const title = req.body.title;
       pool.query('INSERT INTO db (source, title) VALUES($1, $2)', [source, title]);
     res.status(201).json({
@@ -67,5 +71,7 @@ app.use((req, res, next) => {
       console.error(err.message)
     }
   });
+
+  app.use('/dashboard', require('./routes/dashboard'));
 
 module.exports = app;

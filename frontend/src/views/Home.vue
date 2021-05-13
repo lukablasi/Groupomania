@@ -43,6 +43,7 @@ export default {
     }
   },
   methods: {
+    
     async getGifs () {
       axios.get('http://localhost:5000/api/gifs').then((response) => {
         this.gifsData = response.data;
