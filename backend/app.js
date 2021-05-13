@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const pool = require('./db');
 const cors = require('cors');
 const multer = require('./middleware/multer-config');
+const path = require('path');
 
 const app = express();
 
@@ -23,6 +24,8 @@ app.use((req, res, next) => {
 
   app.use('/auth', require ('./routes/jwtAuth'))
 
+  app.use('/images', express.static(path.join(__dirname, 'images')));
+
   app.get('/api/gifs', async (req, res) => {
     try {
       const allGifs = await pool.query('SELECT * FROM db');
@@ -42,9 +45,11 @@ app.use((req, res, next) => {
     }
   });
 
-  app.post('/api/gifs', (req, res, next) => {
-      const source = 'http://localhost:5000/images/' + req.file.filename;
+  app.post('/api/gifs', multer, (req, res, next) => {
+      
+      const source =  req.body.source;
       const title = req.body.title;
+      console.log(source.name);
       pool.query('INSERT INTO db (source, title) VALUES($1, $2)', [source, title]);
     res.status(201).json({
       message: 'Gif added successfuly'

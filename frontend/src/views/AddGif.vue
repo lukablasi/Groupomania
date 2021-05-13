@@ -1,9 +1,9 @@
 <template>
   <div class="add-gif">
     <h1>Upload a new GIF</h1>
-    <form>
+    <form encrypte='multipart/form-data'>
       <label for='source'>Source:</label>
-      <input type='text' id='source' name='source' ref='image' v-model='source'><br>
+      <input type='file' id='source' name='source' ref='image'><br>
       <label for='title'>Title:</label>
       <input type='text' id='title' name='title' ref='heading' v-model='title'><br>
       <div class='msg'> {{msg}} </div>
@@ -45,14 +45,16 @@ export default {
   },
   methods: {
     getSource () {
-      this.source = this.$refs.image.value;
+      
+      this.source = this.$refs.image.files[0].name;
       this.title = this.$refs.heading.value;
+      const formData = new FormData();
+      formData.append('file', this.source)
       if (this.title != '' && this.source != '') {
       axios.post('http://localhost:5000/api/gifs', {
         source: this.source,
         title: this.title
       }).then((response) => {
-        console.log(response);
         this.msg = response.data.message;
         this.errmsg = '';
         this.title = '';
