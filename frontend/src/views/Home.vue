@@ -1,9 +1,9 @@
 <template>
   <div class="home">
-    <h1>New Gifs</h1>
-    <div v-for='gif in gifsData.slice().reverse()' :gif='gif' :key='gif.id'>
-        <router-link :to="'/gif/' + gif.gif_id" >
-        <GifBody :source=gif.source :title=gif.title :author=gif.author />
+    <h1>New Posts</h1>
+    <div v-for='post in postsData.slice().reverse()' :post='post' :key='post.id'>
+        <router-link :to="'/posts/' + post.post_id" >
+        <Post :postBody=post.body :title=post.title :author=post.author />
 
         </router-link>
                 
@@ -31,29 +31,30 @@ h4 {
 </style>
 
 <script>
-import GifBody from '../components/Gif.vue';
+import Post from '../components/Post.vue';
 import axios from 'axios';
 
 export default {
   name: 'Home',
-  components: {GifBody},
+  components: {Post},
   data() {
     return {
-      gifsData: [],
+      postsData: [],
     }
   },
   methods: {
     
-    async getGifs () {
-      axios.get('http://localhost:5000/api/gifs').then((response) => {
-        this.gifsData = response.data;
+    async getPosts () {
+      axios.get('http://localhost:5000/api/posts').then((response) => {
+        this.postsData = response.data;
+
       }, (error) => {
         console.log(error);
       })
     },
   },
   beforeMount() {
-    this.getGifs()
+    this.getPosts()
   },
 }
 </script>

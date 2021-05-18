@@ -1,14 +1,15 @@
 <template>
   <div class="add-gif">
-    <h1>Upload a new GIF</h1>
-    <form encrypte='multipart/form-data'>
-      <label for='source'>Source:</label>
-      <input type='file' id='source' name='source' ref='image'><br>
+    <h1>Add new post</h1>
+    <form>
       <label for='title'>Title:</label>
       <input type='text' id='title' name='title' ref='heading' v-model='title'><br>
+      <label for='body'>Post</label>
+      <textarea id='body' name='source' ref='post' v-model='post' rows='20' cols='50'></textarea><br>
+      
       <div class='msg'> {{msg}} </div>
       <div class='errmsg'> {{errmsg}} </div>
-      <button @click.prevent='getSource()'>Add Gif</button>
+      <button @click.prevent='getSource()'>Add Post</button>
     </form>
     {{ body }}
   </div>
@@ -32,10 +33,9 @@
 import axios from 'axios';
 
 export default {
-  name: 'AddGif',
+  name: 'AddPost',
   data() {
     return {
-      source: '',
       title: '',
       author: '',
       msg: '',
@@ -43,17 +43,26 @@ export default {
       errmsg:''
     }
   },
+  
   methods: {
+    // checkIfAuth () {
+    //   console.log(this.isLoggedIn)
+    //   if (this.isLoggedIn === false) {
+        
+    //     alert('You need to log in')
+    //   }
+    // },
     getSource () {
       
-      this.source = this.$refs.image.files[0].name;
+      this.body = this.$refs.post.value;
       this.title = this.$refs.heading.value;
-      const formData = new FormData();
-      formData.append('file', this.source)
-      if (this.title != '' && this.source != '') {
-      axios.post('http://localhost:5000/api/gifs', {
-        source: this.source,
-        title: this.title
+      this.author = localStorage.userName;
+
+      if (this.title != '' && this.body != '') {
+      axios.post('http://localhost:5000/api/posts', {
+        postBody: this.body,
+        title: this.title,
+        author: this.author
       }).then((response) => {
         this.msg = response.data.message;
         this.errmsg = '';
@@ -62,11 +71,13 @@ export default {
       }, (error) => {
         console.log(error);
       }) } else {
-        this.errmsg = 'Title and source are required';
+        this.errmsg = 'Title and content are required';
         this.msg = '';
       }
     },
   },
-  
+  // beforeMount() {
+  //   this.checkIfAuth ()
+  // },
 }
 </script>

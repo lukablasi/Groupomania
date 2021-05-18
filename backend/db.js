@@ -5,7 +5,7 @@ const pool = new Pool({
     password: 'l79u456k13a',
     host: 'localhost',
     port: 5432,
-    database: 'gifs'
+    database: 'groupomania'
 });
 
 module.exports = pool;

@@ -1,39 +1,49 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
-import AddGif from '../views/AddGif.vue'
+import AddPost from '../views/AddPost.vue'
 import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
-import SingleGif from '../views/SingleGif.vue'
+import SinglePost from '../views/SinglePost.vue'
 
 
 Vue.use(VueRouter)
 
 const routes = [
+  
   {
     path: '/',
     name: 'Home',
     component: Home
   },
   {
-    path: '/addgif',
-    name: 'AddGif',
-    component: AddGif
+    path: '/addpost',
+    name: 'AddPost',
+    component: AddPost,
+    meta: {
+      requiresAuth: true
+    }
   },
   {
     path: '/login',
     name: 'Login',
-    component: Login
+    component: Login,
+    meta: {
+      guest: true
+    }
   },
   {
     path: '/register',
     name: 'Register',
-    component: Register
+    component: Register,
+    meta: {
+      guest: true
+    }
   },
   {
-    path: '/gif/:id',
-    name: 'SingleGif',
-    component: SingleGif
+    path: '/posts/:id',
+    name: 'SinglePost',
+    component: SinglePost
   }
 ]
 
@@ -43,5 +53,32 @@ const router = new VueRouter({
   routes
 })
 
+
+
+router.beforeEach((to, from, next) => {
+  
+  if (to.meta.requiresAuth){
+    if (localStorage.token) {
+      next()
+    } else {
+      next({name:'Home'})
+    }
+  }else {
+  next()
+  }
+})
+
+router.beforeEach((to, from, next) => {
+ 
+  if (to.meta.guest){
+    if (!localStorage.token) {
+      next()
+    } else {
+      next({name:'Home'})
+    }
+  }else {
+  next()
+  }
+})
 
 export default router

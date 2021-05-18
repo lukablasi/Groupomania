@@ -59,14 +59,16 @@ export default {
             "Content-type": "application/json"
           },
          body: JSON.stringify(this.body)
-        }
+        },
         
       );
       this.parseRes = await response.json();
+      if (this.parseRes.token !== undefined) {
       localStorage.setItem('token', this.parseRes.token);
       localStorage.setItem('userID', this.parseRes.userID);
       localStorage.setItem('userName', this.parseRes.userName);
       this.$router.go(this.$router.push('/'))
+      }
       } catch (err) {
         console.error(err.message)
       }

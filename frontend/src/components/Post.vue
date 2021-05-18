@@ -1,14 +1,14 @@
 <template>
-  <div class="gif-body">
+  <div class="post-body">
       <h2>{{ title }}</h2>
-      <img :src='source' >
+      <p> {{ postBody }} </p>
       <h4><i>uploaded by:</i> {{ author }}</h4>
   </div>
 </template>
 
 <style lang='scss' scoped>
 
-.gif-body {
+.post-body {
   background-color: #f8f8f8;
   max-width: 600px;
   margin: auto;
@@ -16,7 +16,7 @@
   margin-top: 20px;
 }
 
-.gif-body:hover {
+.post-body:hover {
   background-color: #f1f1f1;
 }
 
@@ -35,8 +35,8 @@ img {
 <script>
 
 export default {
-  name: 'GifBody',
-  props: ['source', 'title', 'author']
+  name: 'Post',
+  props: ['postBody', 'title', 'author']
   
 }
 </script>

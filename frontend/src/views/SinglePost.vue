@@ -1,19 +1,19 @@
 <template>
   <div>
-  <div class="single-gif">
-    
-    <h2>{{ gif.title }}</h2>
-    <img :src=gif.source>
-    <h4><i>uploaded by:</i> {{ gif.author }}</h4>
+  <div class="single-post">
+    <h1>lalala</h1>
+    <h2>{{ post.title }}</h2>
+    <p>{{ post.postBody }}</p>
+    <h4><i>uploaded by:</i> {{ post.author }}</h4>
     <div class='msg'> {{ msg }} </div>
   </div>
-  <button v-on:click='deleteGif()' class='delete'>Delete</button>
+  <button v-on:click='deletePost()' class='delete'>Delete</button>
     </div>
 </template>
 
 <style lang="scss" scoped>
 
-.single-gif {
+.single-post {
   background-color: #f8f8f8;
   max-width: 600px;
   margin: auto;
@@ -59,27 +59,28 @@ img {
 import axios from 'axios';
 
 export default {
-  name: 'SingleGif',
+  name: 'SinglePost',
   data() {
     return {
-      gif: {},
+      post: {},
       msg: ''
     }
   },
   methods: {
-    async getOneGif () {
-       axios.get('http://localhost:5000/api/gifs').then((response) => {
-        this.gifsData = response.data;
+    async getOnePost () {
+       axios.get('http://localhost:5000/api/posts').then((response) => {
+         
+        this.postsData = response.data;
         const ID = Number(this.$route.params.id);
-        const gif = this.gifsData.find(gif => gif.gif_id == ID);
-        this.gif = gif;
+        const post = this.postsData.find(post => post.post_id == ID);
+        this.post = post;
+        
       }, (error) => {
         console.log(error);
       })
     },
-    deleteGif () {
-      axios.delete('http://localhost:5000/api/gifs/' + this.$route.params.id).then((response) => {
-        console.log(response);
+    deletePost () {
+      axios.delete('http://localhost:5000/api/posts/' + this.$route.params.id).then((response) => {
         this.msg = response.data;
       }, (error) => {
         console.log(error);
@@ -87,7 +88,7 @@ export default {
     }, 
   },
   beforeMount() {
-    this.getOneGif()
+    this.getOnePost()
   },
 }
 </script>

@@ -9,7 +9,7 @@
       <label for='password'>Password:</label><br>
       <input type='password' id='password' name='password' v-model='password'><br>
       <label for='password'>Confirm:</label><br>
-      <input type='password' id='confirmpassword' name='confirmpassword'><br>
+      <input type='password' id='confirmpassword' name='confirmpassword' v-model='confirmpassword'><br>
       <input type='submit' value='Submit'>
     </form>
   </div>
@@ -41,15 +41,18 @@ export default {
   methods: {
     
     onSubmitForm: async function (e) {
+      e.preventDefault();
+
       if (this.password !== this.confirmpassword) {
         window.alert('Passwords are not matching, try again')
       } else {
-      e.preventDefault();
+      
       this.body = {
         name: this.name,
         email: this.email,
         password: this.password
       };
+      
       try {
         const response = await fetch(
         "http://localhost:5000/auth/register",
@@ -63,10 +66,12 @@ export default {
         
       );
       this.parseRes = await response.json();
+      console.log(this.parseRes);
       localStorage.setItem('token', this.parseRes.token);
       localStorage.setItem('userID', this.parseRes.userID);
       localStorage.setItem('userName', this.parseRes.userName);
-      this.$router.push('/').reload()
+      this.$router.push('/');
+      location.reload();
       } catch (err) {
         console.error(err.message)
       }

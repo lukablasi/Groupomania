@@ -8,7 +8,7 @@
       <router-link to="/">Home</router-link>
       
       <span v-if='isLoggedIn'>
-        <router-link to="/addgif">Add Gif</router-link>
+        <router-link to="/addpost">Add Post</router-link>
         <a href='' @click='logout'>Logout</a>
       </span>
       <span v-else>
@@ -70,15 +70,15 @@ export default ({
           headers: {
             token: localStorage.token
           },
-
-        }
-        
+        },
       );
       this.parseRes = await response.json();
         if (this.parseRes === true) {
-          this.isLoggedIn = true
+          this.isLoggedIn = true;
+          console.log(this.isLoggedIn);
         } else {
-          this.isLoggedIn = false
+          this.isLoggedIn = false;
+
         }
 
       } catch (err) {
@@ -92,6 +92,7 @@ export default ({
         this.$router.push('/')
     }
   },
+  
   beforeMount() {
     this.isAuth()
   }
