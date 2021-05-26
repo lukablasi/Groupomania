@@ -10,7 +10,7 @@
       <input type='password' id='password' name='password' v-model='password'><br>
       <label for='password'>Confirm:</label><br>
       <input type='password' id='confirmpassword' name='confirmpassword' v-model='confirmpassword'><br>
-      <input type='submit' value='Submit'>
+      <input class='submit' type='submit' value='Submit'>
     </form>
   </div>
 </template>

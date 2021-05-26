@@ -9,7 +9,9 @@
       
       <span v-if='isLoggedIn'>
         <router-link to="/addpost">Add Post</router-link>
+        <router-link to="/dashboard">Your Account</router-link>
         <a href='' @click='logout'>Logout</a>
+        <h3>Welcome back, {{ name }}!</h3>
       </span>
       <span v-else>
         <router-link to="/login">Login</router-link>
@@ -28,6 +30,20 @@
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  height: 100vh;
+  background:
+  radial-gradient(rgb(218, 214, 214) 3px, transparent 4px),
+    radial-gradient(rgb(211, 207, 207) 3px, transparent 4px),
+    linear-gradient(#fff 4px, transparent 0),
+    linear-gradient(45deg, transparent 74px, transparent 75px, #a4a4a4 75px, #a4a4a4 76px, transparent 77px, transparent 109px),
+    linear-gradient(-45deg, transparent 75px, transparent 76px, #a4a4a4 76px, #a4a4a4 77px, transparent 78px, transparent 109px),
+  #fff;
+  background-size: 109px 109px, 109px 109px,100% 6px, 109px 109px, 109px 109px;
+  background-position: 54px 55px, 0px 0px, 0px 0px, 0px 0px, 0px 0px;
+}
+
+h3 {
+  text-align: right;
 }
 
 #nav {
@@ -49,6 +65,8 @@
 .nav-logo img {
   max-width: 90vw;
 }
+
+
 </style>
 
 <script>
@@ -57,7 +75,8 @@
 export default ({
   data() {
     return {
-      isLoggedIn: false
+      isLoggedIn: false,
+      name: localStorage.userName
     }
   },
   methods: {
@@ -78,7 +97,9 @@ export default ({
           console.log(this.isLoggedIn);
         } else {
           this.isLoggedIn = false;
-
+          localStorage.removeItem('token')
+      localStorage.removeItem('userID')
+      localStorage.removeItem('userName')
         }
 
       } catch (err) {

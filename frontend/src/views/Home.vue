@@ -1,9 +1,18 @@
 <template>
   <div class="home">
     <h1>New Posts</h1>
+    
     <div v-for='post in postsData.slice().reverse()' :post='post' :key='post.id'>
+      <!-- <div v-for='seen in seenPosts' :key='seen.id'>hahaha</div> -->
+      
+        <h4 v-if="seenPosts.includes(post.post_id)"></h4>
+        <h4 class='new-message' v-else>New post!</h4>
         <router-link :to="'/posts/' + post.post_id" >
-        <Post :postBody=post.body :title=post.title :author=post.author />
+        
+        <Post 
+        
+        :title=post.title 
+        :author=post.author />
 
         </router-link>
                 
@@ -24,8 +33,9 @@ h4 {
   color: #2c3e50;
 }
 
-.home {
-  background-color: rgba(199, 250, 192, 0.473);
+.new-message {
+  text-align: left;
+  margin-left: 200px;
 }
 
 </style>
@@ -40,6 +50,7 @@ export default {
   data() {
     return {
       postsData: [],
+      seenPosts: []
     }
   },
   methods: {
@@ -47,14 +58,27 @@ export default {
     async getPosts () {
       axios.get('http://localhost:5000/api/posts').then((response) => {
         this.postsData = response.data;
+          console.log(this.postsData)
+      }, (error) => {
+        console.log(error);
+      })
+    },
+    async getSeenPosts () {
+      axios.post('http://localhost:5000/api/posts/visited', {
+        userID: localStorage.userID
+      }).then((response) => {
+        this.seenPosts= response.data.map(a => a.post_id)
+          console.log(this.seenPosts)
 
+          
       }, (error) => {
         console.log(error);
       })
     },
   },
   beforeMount() {
-    this.getPosts()
+    this.getPosts(),
+    this.getSeenPosts()
   },
 }
 </script>

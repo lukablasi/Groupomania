@@ -72,4 +72,16 @@ router.get('/is-verify', authorization, async (req, res) => {
     }
 });
 
+//delete account
+
+router.delete('/delete', authorization, async(req, res) => {
+    try {
+        const user = await pool.query("DELETE FROM users WHERE user_id = $1", [req.user]);
+        res.json('User successfully deleted');
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error')
+    }
+})
+
 module.exports = router;

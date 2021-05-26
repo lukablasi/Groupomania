@@ -1,8 +1,9 @@
 <template>
   <div class="post-body">
+    <h4>{{ seen }}</h4>
       <h2>{{ title }}</h2>
       <p> {{ postBody }} </p>
-      <h4><i>uploaded by:</i> {{ author }}</h4>
+      <h4><i>Added by:</i> {{ author }}</h4>
   </div>
 </template>
 
@@ -20,15 +21,18 @@
   background-color: #f1f1f1;
 }
 
+h2 {
+  color: #2c3e50;
+}
+
 h4 {
   text-align: right;
   margin-right: 50px;
   color: #2c3e50;
 }
 
-img {
-  width: 70%;
-  height: 300px;
+p {
+  color: #2c3e50;
 }
 
 </style>
@@ -36,7 +40,7 @@ img {
 
 export default {
   name: 'Post',
-  props: ['postBody', 'title', 'author']
+  props: ['postBody', 'title', 'author', 'seen']
   
 }
 </script>

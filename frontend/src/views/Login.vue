@@ -7,7 +7,7 @@
       <input type='email' id='email' name='email' v-model='email'><br>
       <label for='password'>Password:</label><br>
       <input type='password' id='password' name='password' v-model='password'><br>
-      <input type='submit' value='Submit'>
+      <input class='submit' type='submit' value='Submit'>
     </form>
   </div>
 </template>
@@ -21,12 +21,19 @@
     
   }
   label {
-    font-size: 17px;
+    font-size: 23px;
     
   }
   input {
     margin: 10px;
-    font-size: 15px;
+    font-size: 20px;
+  }
+
+  .submit {
+    background-color: #23b106;
+    color: whitesmoke;
+    padding: 10px;
+    border-radius: 20%;
   }
 </style>
 

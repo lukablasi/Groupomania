@@ -35,7 +35,7 @@ app.use((req, res, next) => {
   app.get('/api/posts/:id', async (req, res) => {
     try {
       const { id } = req.params;
-      const posts = await pool.query ('SELECT * FROM posts WHERE post_id = $1', [id])
+      const posts = await pool.query ('SELECT * FROM posts WHERE post_id = $1', [id]);
       res.json(posts.rows[0])
 
     } catch (err) {
@@ -43,27 +43,30 @@ app.use((req, res, next) => {
     }
   });
 
-  app.post('/api/posts', (req, res, next) => {
+  app.post('/api/posts', async (req, res, next) => {
+    
       const author = req.body.author;
       const postBody =  req.body.postBody;
       const title = req.body.title;
 
       pool.query('INSERT INTO posts (body, title, author) VALUES($1, $2, $3)', [postBody, title, author]);
+
     res.status(201).json({
       message: 'Post added successfuly'
     });
   });
 
-  app.put('/api/posts/:id', async (req, res) => {
-    try {
-      const { id } = req.params;
-      const { title } = req.body;
-      const updateGif = await pool.query('UPDATE posts SET title = $1 WHERE gif_id = $2', [title, id]);
-      res.json('Gif was updated');
-    } catch (err) {
-      console.error(err.message);
-    }
-  });
+
+  // app.put('/api/posts/:id', async (req, res) => {
+  //   try {
+  //     const { id } = req.params;
+  //     const { title } = req.body;
+  //     const updateGif = await pool.query('UPDATE posts SET title = $1 WHERE gif_id = $2', [title, id]);
+  //     res.json('Gif was updated');
+  //   } catch (err) {
+  //     console.error(err.message);
+  //   }
+  // });
 
   app.delete('/api/posts/:id', async (req, res) => {
     try {
@@ -74,6 +77,38 @@ app.use((req, res, next) => {
       console.error(err.message)
     }
   });
+
+  //save visited post
+
+  app.post('/api/posts/seen', async (req, res, next) => {
+
+    try {
+      const postID = req.body.postID;
+    const userID = req.body.userID;
+    console.log(postID)
+
+    pool.query('INSERT INTO seen (post_id, user_id) VALUES($1, $2)', [postID, userID]);
+
+  res.status(201).json({
+    message: 'Post visited'
+  });
+    } catch (error) {
+      console.error(err.message)
+    }
+
+});
+
+//get seen posts
+
+app.post('/api/posts/visited', async (req, res) => {
+  try {
+    const userID = req.body.userID;
+    const allSeenPosts = await pool.query('SELECT DISTINCT post_id FROM seen WHERE user_id = $1', [userID]);
+    res.json(allSeenPosts.rows)
+  } catch (err) {
+    console.error(err.message)
+  }
+});
 
   app.use('/dashboard', require('./routes/dashboard'));
 

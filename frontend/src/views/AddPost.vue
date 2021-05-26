@@ -3,9 +3,9 @@
     <h1>Add new post</h1>
     <form>
       <label for='title'>Title:</label>
-      <input type='text' id='title' name='title' ref='heading' v-model='title'><br>
+      <input class='input' type='text' id='title' name='title' ref='heading' v-model='title'><br>
       <label for='body'>Post</label>
-      <textarea id='body' name='source' ref='post' v-model='post' rows='20' cols='50'></textarea><br>
+      <textarea class='input' id='body' name='source' ref='post' v-model='post' rows='20' cols='40'></textarea><br>
       
       <div class='msg'> {{msg}} </div>
       <div class='errmsg'> {{errmsg}} </div>
@@ -25,6 +25,11 @@
 .errmsg {
   color: darkred;
   padding: 10px;
+}
+
+.input {
+ text-align: center;
+ font-size: 17px;
 }
 </style>
 

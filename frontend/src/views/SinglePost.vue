@@ -1,13 +1,13 @@
 <template>
   <div>
   <div class="single-post">
-    <h1>lalala</h1>
+
     <h2>{{ post.title }}</h2>
-    <p>{{ post.postBody }}</p>
-    <h4><i>uploaded by:</i> {{ post.author }}</h4>
-    <div class='msg'> {{ msg }} </div>
+    <p>{{ post.body }}</p>
+    <h4><i>Added by:</i> {{ post.author }}</h4>
+    <!-- <div class='msg'> {{ msg }} </div> -->
   </div>
-  <button v-on:click='deletePost()' class='delete'>Delete</button>
+  <!-- <button v-on:click='deletePost()' class='delete'>Delete</button> -->
     </div>
 </template>
 
@@ -19,10 +19,6 @@
   margin: auto;
   border: 1px #2c3e50 solid;
   margin-top: 20px;
-}
-
-h2 {
-  color: #42b983;
 }
 
 h4 {
@@ -63,7 +59,10 @@ export default {
   data() {
     return {
       post: {},
-      msg: ''
+      msg: '',
+      body: '',
+      postID: '',
+      userID: ''
     }
   },
   methods: {
@@ -74,21 +73,35 @@ export default {
         const ID = Number(this.$route.params.id);
         const post = this.postsData.find(post => post.post_id == ID);
         this.post = post;
-        
+
       }, (error) => {
         console.log(error);
       })
     },
-    deletePost () {
-      axios.delete('http://localhost:5000/api/posts/' + this.$route.params.id).then((response) => {
-        this.msg = response.data;
+    markAsSeen () {
+      
+      this.userID = localStorage.userID;
+      
+      axios.post('http://localhost:5000/api/posts/seen', {
+        userID: localStorage.userID,
+        postID: this.$route.params.id
+      }).then((response) => {
+        this.msg = response
       }, (error) => {
         console.log(error);
-      })
-    }, 
+      }) 
+    },
+    // deletePost () {
+    //   axios.delete('http://localhost:5000/api/posts/' + this.$route.params.id).then((response) => {
+    //     this.msg = response.data;
+    //   }, (error) => {
+    //     console.log(error);
+    //   })
+    // }, 
   },
   beforeMount() {
-    this.getOnePost()
+    this.getOnePost(),
+    this.markAsSeen()
   },
 }
 </script>

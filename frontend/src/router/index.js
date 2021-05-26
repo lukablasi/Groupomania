@@ -5,6 +5,7 @@ import AddPost from '../views/AddPost.vue'
 import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
 import SinglePost from '../views/SinglePost.vue'
+import Dashboard from '../views/Dashboard.vue'
 
 
 Vue.use(VueRouter)
@@ -44,6 +45,14 @@ const routes = [
     path: '/posts/:id',
     name: 'SinglePost',
     component: SinglePost
+  },
+  {
+    path: '/dashboard',
+    name: 'Dashboard',
+    component: Dashboard,
+    meta: {
+      requiresAuth: true
+    }
   }
 ]
 
