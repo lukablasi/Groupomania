@@ -30,7 +30,10 @@
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  height: 100vh;
+  margin-top: -30px;
+  padding-top: 30px;
+  padding-bottom: 70px;
+  min-height: 100vh;
   background:
   radial-gradient(rgb(218, 214, 214) 3px, transparent 4px),
     radial-gradient(rgb(211, 207, 207) 3px, transparent 4px),
@@ -40,6 +43,7 @@
   #fff;
   background-size: 109px 109px, 109px 109px,100% 6px, 109px 109px, 109px 109px;
   background-position: 54px 55px, 0px 0px, 0px 0px, 0px 0px, 0px 0px;
+
 }
 
 h3 {

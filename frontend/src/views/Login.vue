@@ -34,6 +34,7 @@
     color: whitesmoke;
     padding: 10px;
     border-radius: 20%;
+    font-size: 23px;
   }
 </style>
 

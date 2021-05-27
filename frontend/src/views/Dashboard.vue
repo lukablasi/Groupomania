@@ -9,16 +9,9 @@
         <h3>User ID</h3>
         <p>{{ id }}</p>
 
-    <form class="upload-picture" enctype="multipart/form-data">
-      <label>Upload your picture</label> <br>
-        <input type="file" id="file" ref="file" v-on:change="handleFileUpload()"/>
-      <br>
-        <button v-on:click="submitFile()">Submit</button>
-    </form>
-
 
         <h3>Delete your account:</h3>
-        <button v-on:click='deleteAccount()'>Delete</button>
+        <button class='submit' v-on:click='deleteAccount()'>Delete</button>
         {{ msg }}
     </div>
 </template>
@@ -26,6 +19,11 @@
 <style scoped>
 h3 {
     text-align: center;
+    font-size: 20px;
+}
+
+p {
+    font-size: 18px;
 }
 
 .upload-picture {
@@ -35,10 +33,15 @@ h3 {
 label, input {
     font-size: 1em;
 }
+
+.submit{
+    background-color: red;
+
+}
 </style>
 
 <script>
-import axios from 'axios';
+
 
 export default {
     name: 'Dashboard',
@@ -49,26 +52,11 @@ export default {
             email: '',
             id: '',
             msg: '',
-            confirmation: '',
-            file: ''
+            confirmation: ''
         }
     },
     methods: {
-        async submitFile(){
-            let formData = new FormData();
-            formData.append('file', this.file);
-
-            try {
-                axios.post('http://localhost:5000/upload', formData)
-            } catch (err) {
-                console.error(err.message)
-            }
-
-            
-},
-       async handleFileUpload(){
-    this.file = this.$refs.file.files[0];
-  },
+        
         async deleteAccount () {
             this.confirmation = confirm('Are you sure?')
             if (this.confirmation === true) {

@@ -43,8 +43,8 @@ export default {
     onSubmitForm: async function (e) {
       e.preventDefault();
 
-      if (this.password !== this.confirmpassword) {
-        window.alert('Passwords are not matching, try again')
+      if (this.password !== this.confirmpassword || this.password == '') {
+        window.alert('Passwords are not matching or are empty, try again')
       } else {
       
       this.body = {
@@ -73,6 +73,7 @@ export default {
       location.reload();
       } catch (err) {
         console.error(err.message)
+        window.alert('Email already in use.')
       }
     }
     }

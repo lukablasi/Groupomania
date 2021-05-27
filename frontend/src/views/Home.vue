@@ -5,14 +5,15 @@
     <div v-for='post in postsData.slice().reverse()' :post='post' :key='post.id'>
       
       
-        <h4 v-if="seenPosts.includes(post.post_id)"></h4>
-        <h4 class='new-message' v-else>New post!</h4>
+        <h4 class='new-message' v-if="!seenPosts.includes(post.post_id) && user != null ">New post!</h4>
+        <h4 v-else></h4>
         <router-link :to="'/posts/' + post.post_id" >
         
         <Post 
         :source = "'/images/' + post.imgname"
         :title=post.title 
-        :author=post.author />
+        :author=post.author 
+        />
 
         </router-link>
                 
@@ -52,6 +53,7 @@ export default {
     return {
       postsData: [],
       seenPosts: [],
+      user: localStorage.userID
     }
   },
   methods: {

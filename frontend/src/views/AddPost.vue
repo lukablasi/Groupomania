@@ -2,21 +2,26 @@
   <div class="add-gif">
     <h1>Add new post</h1>
     <form enctype="multipart/form-data">
-      <label for='title'>Title:</label>
+      <label class='add-post-label' for='title'>Title:</label><br>
       <input class='input' type='text' id='title' name='title' ref='heading' v-model='title'><br>
-      <label for='body'>Post</label>
-      <textarea class='input' id='body' name='source' ref='post' v-model='post' rows='20' cols='40'></textarea><br>
-            <label>Upload your picture</label> <br>
+      <label class='add-post-label' for='body'>Post:</label>
+      <textarea maxlength="500" class='input' id='body' name='source' ref='post' v-model='post' rows='20' cols='40'></textarea><br>
+      <p>max 500 characters</p><br>
+            <label>Add image (not required)</label> <br>
         <input type="file" id="file" ref="file" accept=".jpg, .png, .gif" v-on:change="handleFileUpload()"/>
       <div class='msg'> {{msg}} </div>
       <div class='errmsg'> {{errmsg}} </div>
-      <button @click.prevent='submitFile()'>Add Post</button>
+      <button class='submit' @click.prevent='submitFile()'>Add Post</button>
     </form>
-    {{ body }}
+    
   </div>
 </template>
 
 <style scoped>
+form {
+  min-width: 400px;
+}
+
 .msg {
   color: #42b983;
   font-size: 20px;
@@ -29,8 +34,16 @@
 }
 
 .input {
- text-align: center;
  font-size: 17px;
+}
+
+#file {
+  font-size: 15px;
+}
+
+.add-post-label, input, textarea {
+  margin-top: 10px;
+  margin-bottom: 20px;
 }
 </style>
 
@@ -59,7 +72,7 @@ export default {
             this.body = this.$refs.post.value;
       this.title = this.$refs.heading.value;
       this.author = localStorage.userName;
-
+      console.log(typeof this.filename)
       if (this.title != '' && this.body != '') {
       axios.post('http://localhost:5000/api/posts', {
         postBody: this.body,
@@ -70,7 +83,8 @@ export default {
         this.msg = response.data.message;
         this.errmsg = '';
         this.title = '';
-        this.source = ''
+        this.source = '';
+        this.post = ''
       }, (error) => {
         console.log(error);
       }) } else {

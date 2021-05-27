@@ -3,7 +3,7 @@
   <div class="single-post">
 
     <h2>{{ post.title }}</h2>
-    <img :src= "'/images/' + post.imgname"  >
+    <img v-if="post.imgname != '' " :src= "'/images/' + post.imgname"  >
     <p>{{ post.body }}</p>
     <h4><i>Added by:</i> {{ post.author }}</h4>
  

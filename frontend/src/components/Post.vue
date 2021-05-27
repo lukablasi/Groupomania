@@ -2,7 +2,9 @@
   <div class="post-body">
     <h4>{{ seen }}</h4>
       <h2>{{ title }}</h2>
-      <img :src='source'>
+
+      <img v-if="source != '/images/' " :src='source'>
+
       <p> {{ postBody }} </p>
       <h4><i>Added by:</i> {{ author }}</h4>
   </div>
