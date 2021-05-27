@@ -2,7 +2,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const pool = require('./db');
 const cors = require('cors');
-
+const multer = require('multer');
+const path = require('path');
 
 const app = express();
 
@@ -48,8 +49,9 @@ app.use((req, res, next) => {
       const author = req.body.author;
       const postBody =  req.body.postBody;
       const title = req.body.title;
+      const filename = req.body.filename;
 
-      pool.query('INSERT INTO posts (body, title, author) VALUES($1, $2, $3)', [postBody, title, author]);
+      pool.query('INSERT INTO posts (body, title, author, imgname) VALUES($1, $2, $3, $4)', [postBody, title, author, filename]);
 
     res.status(201).json({
       message: 'Post added successfuly'
@@ -109,6 +111,59 @@ app.post('/api/posts/visited', async (req, res) => {
     console.error(err.message)
   }
 });
+
+//upload file
+
+// const fileFilter = function(req, file, cb) {
+//   const allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
+
+//   if (!allowedTypes.includes(file.mimetype)) {
+//     const error = new Error('Wrong file type');
+//     error.code = "LIMIT_FILE_TYPES";
+//     return cb(error, false);
+//   }
+
+//   cb(null, true);
+// }
+
+// const upload = multer({
+//   dest: './images/users/',
+//   fileFilter
+// }).single("file");
+
+const storage = multer.diskStorage({
+  destination: function(req, file, cb) { 
+     cb(null, '../frontend/public/images/');    
+  }, 
+  filename: function (req, file, cb) { 
+    cb(null,Date.now() + path.extname(file.originalname));  
+  }
+});
+
+const upload = multer({ storage: storage }).single("file");
+
+
+// const store = multer.diskStorage({
+//   destination: function (req, file, cb) {
+//     cb(null, './images/users/')
+//   },
+//   filename: function (req, file, cb) {
+//     cb(null, Date.now() + path.extname(file.originalname)) //Appending extension
+//   }
+// })
+
+// const upload = multer({ storage: storage });
+
+app.post('/upload', (req, res) => {
+  upload(req, res, (err) => {
+    if(err) {
+      res.status(400).send("Something went wrong!");
+    }
+    return res.send(req.file.filename)
+
+  });
+});
+
 
   app.use('/dashboard', require('./routes/dashboard'));
 

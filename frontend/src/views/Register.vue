@@ -66,7 +66,6 @@ export default {
         
       );
       this.parseRes = await response.json();
-      console.log(this.parseRes);
       localStorage.setItem('token', this.parseRes.token);
       localStorage.setItem('userID', this.parseRes.userID);
       localStorage.setItem('userName', this.parseRes.userName);

@@ -4,7 +4,8 @@ CREATE TABLE posts(
     post_id SERIAL PRIMARY KEY,
     author varchar(255),
     title varchar(255),
-    body varchar(500)
+    body varchar(500),
+    imgname varchar(255)
 );
 
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";

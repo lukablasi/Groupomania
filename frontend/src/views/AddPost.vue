@@ -1,15 +1,16 @@
 <template>
   <div class="add-gif">
     <h1>Add new post</h1>
-    <form>
+    <form enctype="multipart/form-data">
       <label for='title'>Title:</label>
       <input class='input' type='text' id='title' name='title' ref='heading' v-model='title'><br>
       <label for='body'>Post</label>
       <textarea class='input' id='body' name='source' ref='post' v-model='post' rows='20' cols='40'></textarea><br>
-      
+            <label>Upload your picture</label> <br>
+        <input type="file" id="file" ref="file" accept=".jpg, .png, .gif" v-on:change="handleFileUpload()"/>
       <div class='msg'> {{msg}} </div>
       <div class='errmsg'> {{errmsg}} </div>
-      <button @click.prevent='getSource()'>Add Post</button>
+      <button @click.prevent='submitFile()'>Add Post</button>
     </form>
     {{ body }}
   </div>
@@ -45,21 +46,17 @@ export default {
       author: '',
       msg: '',
       body: '',
-      errmsg:''
+      errmsg:'',
+      file: '',
+      filename: ''
     }
   },
   
   methods: {
-    // checkIfAuth () {
-    //   console.log(this.isLoggedIn)
-    //   if (this.isLoggedIn === false) {
-        
-    //     alert('You need to log in')
-    //   }
-    // },
-    getSource () {
-      
-      this.body = this.$refs.post.value;
+      async postFile(filename) {
+
+          this.filename = filename;
+            this.body = this.$refs.post.value;
       this.title = this.$refs.heading.value;
       this.author = localStorage.userName;
 
@@ -67,7 +64,8 @@ export default {
       axios.post('http://localhost:5000/api/posts', {
         postBody: this.body,
         title: this.title,
-        author: this.author
+        author: this.author,
+        filename: this.filename
       }).then((response) => {
         this.msg = response.data.message;
         this.errmsg = '';
@@ -79,10 +77,28 @@ export default {
         this.errmsg = 'Title and content are required';
         this.msg = '';
       }
-    },
+
+      },
+    async handleFileUpload(){
+    this.file = this.$refs.file.files[0];
   },
-  // beforeMount() {
-  //   this.checkIfAuth ()
-  // },
+  async submitFile(){
+            this.author = localStorage.userName;
+            let formData = new FormData();
+            formData.append('file', this.file);
+            
+            try {
+                axios.post('http://localhost:5000/upload', formData).then((res) => {
+                    this.filename = res.data;
+                    this.postFile(this.filename)
+                })
+                
+            } catch (err) {
+                console.error(err.message)
+            }
+
+            
+},
+  },
 }
 </script>

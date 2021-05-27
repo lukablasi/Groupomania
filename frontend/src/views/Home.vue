@@ -3,14 +3,14 @@
     <h1>New Posts</h1>
     
     <div v-for='post in postsData.slice().reverse()' :post='post' :key='post.id'>
-      <!-- <div v-for='seen in seenPosts' :key='seen.id'>hahaha</div> -->
+      
       
         <h4 v-if="seenPosts.includes(post.post_id)"></h4>
         <h4 class='new-message' v-else>New post!</h4>
         <router-link :to="'/posts/' + post.post_id" >
         
         <Post 
-        
+        :source = "'/images/' + post.imgname"
         :title=post.title 
         :author=post.author />
 
@@ -33,9 +33,10 @@ h4 {
   color: #2c3e50;
 }
 
+
 .new-message {
-  text-align: left;
-  margin-left: 200px;
+  
+  margin-left: -300px;
 }
 
 </style>
@@ -50,7 +51,7 @@ export default {
   data() {
     return {
       postsData: [],
-      seenPosts: []
+      seenPosts: [],
     }
   },
   methods: {
@@ -58,7 +59,6 @@ export default {
     async getPosts () {
       axios.get('http://localhost:5000/api/posts').then((response) => {
         this.postsData = response.data;
-          console.log(this.postsData)
       }, (error) => {
         console.log(error);
       })
@@ -68,7 +68,7 @@ export default {
         userID: localStorage.userID
       }).then((response) => {
         this.seenPosts= response.data.map(a => a.post_id)
-          console.log(this.seenPosts)
+          
 
           
       }, (error) => {

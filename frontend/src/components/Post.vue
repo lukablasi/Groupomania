@@ -2,6 +2,7 @@
   <div class="post-body">
     <h4>{{ seen }}</h4>
       <h2>{{ title }}</h2>
+      <img :src='source'>
       <p> {{ postBody }} </p>
       <h4><i>Added by:</i> {{ author }}</h4>
   </div>
@@ -35,12 +36,17 @@ p {
   color: #2c3e50;
 }
 
+img {
+  height: 300px;
+  width: 70%;
+}
+
 </style>
 <script>
 
 export default {
   name: 'Post',
-  props: ['postBody', 'title', 'author', 'seen']
+  props: ['postBody', 'title', 'author', 'seen', 'source']
   
 }
 </script>

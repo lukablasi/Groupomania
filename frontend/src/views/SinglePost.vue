@@ -3,11 +3,12 @@
   <div class="single-post">
 
     <h2>{{ post.title }}</h2>
+    <img :src= "'/images/' + post.imgname"  >
     <p>{{ post.body }}</p>
     <h4><i>Added by:</i> {{ post.author }}</h4>
-    <!-- <div class='msg'> {{ msg }} </div> -->
+ 
   </div>
-  <!-- <button v-on:click='deletePost()' class='delete'>Delete</button> -->
+
     </div>
 </template>
 
@@ -91,13 +92,6 @@ export default {
         console.log(error);
       }) 
     },
-    // deletePost () {
-    //   axios.delete('http://localhost:5000/api/posts/' + this.$route.params.id).then((response) => {
-    //     this.msg = response.data;
-    //   }, (error) => {
-    //     console.log(error);
-    //   })
-    // }, 
   },
   beforeMount() {
     this.getOnePost(),

@@ -8,6 +8,15 @@
         <p>{{ email }}</p>
         <h3>User ID</h3>
         <p>{{ id }}</p>
+
+    <form class="upload-picture" enctype="multipart/form-data">
+      <label>Upload your picture</label> <br>
+        <input type="file" id="file" ref="file" v-on:change="handleFileUpload()"/>
+      <br>
+        <button v-on:click="submitFile()">Submit</button>
+    </form>
+
+
         <h3>Delete your account:</h3>
         <button v-on:click='deleteAccount()'>Delete</button>
         {{ msg }}
@@ -18,10 +27,18 @@
 h3 {
     text-align: center;
 }
+
+.upload-picture {
+    margin: 40px;
+}
+
+label, input {
+    font-size: 1em;
+}
 </style>
 
 <script>
-
+import axios from 'axios';
 
 export default {
     name: 'Dashboard',
@@ -32,13 +49,28 @@ export default {
             email: '',
             id: '',
             msg: '',
-            confirmation: ''
+            confirmation: '',
+            file: ''
         }
     },
     methods: {
+        async submitFile(){
+            let formData = new FormData();
+            formData.append('file', this.file);
+
+            try {
+                axios.post('http://localhost:5000/upload', formData)
+            } catch (err) {
+                console.error(err.message)
+            }
+
+            
+},
+       async handleFileUpload(){
+    this.file = this.$refs.file.files[0];
+  },
         async deleteAccount () {
             this.confirmation = confirm('Are you sure?')
-            console.log(this.confirmation)
             if (this.confirmation === true) {
             try {
                 const response = await fetch(
