@@ -21,7 +21,7 @@ CREATE TABLE users(
 CREATE TABLE seen(
     user_id uuid NOT NULL,
     post_id int NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES users(user_id),
+    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
     FOREIGN KEY (post_id) REFERENCES posts(post_id)
 );
 
