@@ -2,7 +2,10 @@
 
 ## Project setup
 ```
-install Vue in frontend and Node in backend directory
+install node dependencies in frontend and backend folder
+in frontend folder in terminal run 'npm run serve'
+in backend folder in terminal run 'nodemon app.js'
+
 ```
 
 ### Vue
