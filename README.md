@@ -36,6 +36,7 @@ Account Details Page
   <li>Vue.js</li>
   <li>Node.js</li>
   <li>PostgreSQL</li>
+  <li>JWT</li>
 </ul>
 
 <h2>Created By</h2>
